@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Enviar Datos</title>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    </head>
+    <body>
+        <h1>Enviar Información</h1>
+        
+        <form id="miFormulario">
+            <label for="dato">Ingrese un dato:</label>
+            <input type="text" id="dato" name="dato" required>
+
+            <label for="dato2">Seleccione otro dato:</label>
+            <select id="dato2" name="dato2">
+			<option value="Material1">PLC</option>
+			<option value="Material2">Material 2</option>
+			<option value="Material3">mat3</option>
+			<option value="Material4">mat4</option>
+			<option value="Material5">mat5</option>
+			<option value="Material6">mat6</option>
+			<option value="Material7">mat7</option>
+			<option value="Material8">mat8</option>
+			<option value="Material9">mat9</option>
+			<option value="Material10">mat10</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
+
+            <label for="cantidad2">Ingrese otra cantidad (entero):</label>
+            <input type="number" id="cantidad2" name="cantidad2" required>
+
+            <button type="button" onclick="enviarDatos()">Enviar</button>
+        </form>
+
+        <script>
+            function enviarDatos() {
+                var dato = $('#dato').val();
+                var dato2 = $('#dato2').val(); // Obtener el valor del segundo cuadro de texto
+		var cantidad2 = $('#cantidad2').val(); // Obtener el valor del tercer campo de cantidad
+                var datosCombinados = dato + ' - ' + dato2 + ' - ' + cantidad2;
+
+                // Enviar la solicitud AJAX al servidor con ambos datos
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.100.53:5000/receptor',
+                    contentType: 'application/json;charset=UTF-8',
+                    data: JSON.stringify({ dato:datosCombinados}),
+                    success: function(response) {
+                        alert(response.mensaje);
+                    },
+                    error: function(error) {
+                        console.error('Error en la solicitud AJAX:', error);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
